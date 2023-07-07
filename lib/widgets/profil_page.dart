@@ -54,7 +54,7 @@ class _ProfilPageState extends State<ProfilPage> {
   Widget TabbarWidgetView() {
     return Expanded(
       child: Container(
-        height: 550.h,
+        height: MediaQuery.of(context).size.height * 0.77,
         padding: EdgeInsets.only(top: 10.h),
         child: Column(
           children: [
@@ -77,30 +77,28 @@ class _ProfilPageState extends State<ProfilPage> {
               child: TabBarView(
                 children: [
                   Container(
-                    child: Center(
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: 10,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          mainAxisSpacing: 3.h, // Ana eksen aralığı
-                          crossAxisSpacing: 3.w, // Yatay eksen aralığı
-                          childAspectRatio: 1, // Öğelerin en/boy oranı
-                        ),
-                        itemBuilder: (context, index) {
-                          return Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: AssetImage(
-                                  Sabitler.ProfilResimler[index],
-                                ),
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: 10,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        mainAxisSpacing: 3.h, // Ana eksen aralığı
+                        crossAxisSpacing: 3.w, // Yatay eksen aralığı
+                        childAspectRatio: 1, // Öğelerin en/boy oranı
+                      ),
+                      itemBuilder: (context, index) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: AssetImage(
+                                Sabitler.ProfilResimler[index],
                               ),
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                   Container(
