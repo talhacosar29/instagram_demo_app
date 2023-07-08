@@ -1,5 +1,6 @@
 class Sabitler {
   static int page_num = 0;
+  static int? postIndex;
   static const List<String> ProfilResimler = [
     "assets/images/Insta1.jpeg",
     "assets/images/Insta2.jpeg",
