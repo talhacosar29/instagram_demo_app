@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:instagram_demo_app/constants/app_constants.dart';
 import 'package:instagram_demo_app/constants/post_widget.dart';
-import 'package:instagram_demo_app/widgets/homePage.dart';
 
 class ShipmentsPage extends StatefulWidget {
   const ShipmentsPage({super.key});
