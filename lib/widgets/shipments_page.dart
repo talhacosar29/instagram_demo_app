@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_demo_app/constants/post_widget.dart';
 
+import '../constants/app_constants.dart';
+
 class ShipmentsPage extends StatefulWidget {
   const ShipmentsPage({super.key});
 
@@ -17,7 +19,7 @@ class _ShipmentsPageState extends State<ShipmentsPage> {
         title: Text(
           "Gönderiler",
           style: TextStyle(
-            fontSize: 26.sp,
+            fontSize: 22.sp,
             fontWeight: FontWeight.w900,
           ),
         ),

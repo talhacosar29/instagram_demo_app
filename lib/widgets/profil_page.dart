@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_demo_app/constants/app_constants.dart';
 import 'package:instagram_demo_app/constants/bottom_navigator.dart';
 import 'package:instagram_demo_app/widgets/shipments_page.dart';
+import 'package:instagram_demo_app/widgets/tagged_shipments_page.dart';
 
 class ProfilPage extends StatefulWidget {
   const ProfilPage({super.key});
@@ -91,6 +92,9 @@ class _ProfilPageState extends State<ProfilPage> {
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () {
+                            setState(() {
+                              Sabitler.postIndex = index;
+                            });
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -98,15 +102,12 @@ class _ProfilPageState extends State<ProfilPage> {
                               ),
                             );
                           },
-                          child: Hero(
-                            tag: Sabitler.ProfilResimler[index],
-                            child: Container(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: AssetImage(
-                                    Sabitler.ProfilResimler[index],
-                                  ),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage(
+                                  Sabitler.ProfilResimler[index],
                                 ),
                               ),
                             ),
@@ -127,12 +128,22 @@ class _ProfilPageState extends State<ProfilPage> {
                         childAspectRatio: 1, // Öğelerin en/boy oranı
                       ),
                       itemBuilder: (context, index) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage(
-                                Sabitler.ProfilResimler[index],
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => TagedShipmentsPage(),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage(
+                                  Sabitler.ProfilResimler[index],
+                                ),
                               ),
                             ),
                           ),
