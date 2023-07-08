@@ -98,12 +98,15 @@ class _ProfilPageState extends State<ProfilPage> {
                               ),
                             );
                           },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: AssetImage(
-                                  Sabitler.ProfilResimler[index],
+                          child: Hero(
+                            tag: Sabitler.ProfilResimler[index],
+                            child: Container(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: AssetImage(
+                                    Sabitler.ProfilResimler[index],
+                                  ),
                                 ),
                               ),
                             ),
