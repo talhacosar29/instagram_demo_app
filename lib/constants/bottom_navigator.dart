@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_demo_app/constants/app_constants.dart';
+import 'package:instagram_demo_app/widgets/discover_page.dart';
 
 import '../widgets/profil_page.dart';
 
@@ -16,6 +17,16 @@ class BottomNavigator extends StatelessWidget {
       onTap: (value) {
         if (value == 0) {
           Navigator.popUntil(context, (route) => route.isFirst);
+        }
+
+        if (value == 1) {
+          if (Sabitler.page_num != value) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DiscoverPage(),
+                ));
+          }
         }
 
         if (value == 4) {
@@ -52,14 +63,14 @@ class BottomNavigator extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Icon(
-            Icons.add,
+            Icons.add_box_outlined,
             color: Colors.white,
           ),
           label: '',
         ),
         BottomNavigationBarItem(
           icon: Icon(
-            Icons.favorite_border,
+            Icons.video_collection_outlined,
             color: Colors.white,
           ),
           label: '',

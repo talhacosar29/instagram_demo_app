@@ -1,18 +1,26 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:instagram_demo_app/constants/post_widget.dart';
+import 'package:instagram_demo_app/constants/bottom_navigator.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:flutter/material.dart';
 
-class ShipmentsPage extends StatefulWidget {
-  const ShipmentsPage({super.key});
+import '../constants/post_widget.dart';
 
-  @override
-  State<ShipmentsPage> createState() => _ShipmentsPageState();
-}
+class ShipmentsPage extends StatelessWidget {
+  final int initialIndex;
 
-class _ShipmentsPageState extends State<ShipmentsPage> {
+  const ShipmentsPage({Key? key, required this.initialIndex}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    final ItemScrollController _scrollController = ItemScrollController();
+
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _scrollController.scrollTo(
+          index: initialIndex, duration: Duration(milliseconds: 200));
+    });
+
     return Scaffold(
+      bottomNavigationBar: BottomNavigator(),
       appBar: AppBar(
         title: Text(
           "Gönderiler",
@@ -23,11 +31,12 @@ class _ShipmentsPageState extends State<ShipmentsPage> {
         ),
         backgroundColor: Colors.black,
       ),
-      body: ListView.builder(
+      body: ScrollablePositionedList.builder(
+        itemCount: 10,
         itemBuilder: (context, index) {
           return PostWidgetConstant.PostView(index);
         },
-        itemCount: 10,
+        itemScrollController: _scrollController,
       ),
     );
   }

@@ -21,8 +21,7 @@ class _ProfilPageState extends State<ProfilPage> {
         bottomNavigationBar: BottomNavigator(),
         backgroundColor: Colors.black,
         appBar: AppBar(
-          leadingWidth: 0,
-          leading: Container(),
+          automaticallyImplyLeading: false,
           backgroundColor: Colors.black,
           actions: [
             IconButton(onPressed: () {}, icon: Icon(Icons.add_box_outlined)),
@@ -95,12 +94,8 @@ class _ProfilPageState extends State<ProfilPage> {
                             setState(() {
                               Sabitler.postIndex = index;
                             });
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ShipmentsPage(),
-                              ),
-                            );
+                            Navigator.pushNamed(context, '/shipments',
+                                arguments: index);
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -120,7 +115,7 @@ class _ProfilPageState extends State<ProfilPage> {
                     child: GridView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: 5,
+                      itemCount: 10,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
                         mainAxisSpacing: 3.h, // Ana eksen aralığı
@@ -130,12 +125,10 @@ class _ProfilPageState extends State<ProfilPage> {
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => TagedShipmentsPage(),
-                              ),
-                            );
+                            setState(() {
+                              Sabitler.postIndex = index;
+                            });
+                            Navigator.pushNamed(context, '/taged_shipments', arguments: index);
                           },
                           child: Container(
                             decoration: BoxDecoration(

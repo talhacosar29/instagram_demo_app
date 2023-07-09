@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:instagram_demo_app/widgets/discover_detail_page.dart';
 import 'package:instagram_demo_app/widgets/homePage.dart';
+import 'package:instagram_demo_app/widgets/shipments_page.dart';
+import 'package:instagram_demo_app/widgets/tagged_shipments_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,6 +17,29 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: Size(393, 786),
       builder: (context, child) => MaterialApp(
+          onGenerateRoute: (settings) {
+            if (settings.name == '/shipments') {
+              final int? index = settings.arguments as int?;
+              return MaterialPageRoute(
+                builder: (context) => ShipmentsPage(initialIndex: index ?? 0),
+              );
+            }
+            if (settings.name == '/taged_shipments') {
+              final int? index = settings.arguments as int?;
+              return MaterialPageRoute(
+                builder: (context) => TagedShipmentsPage(initialIndex: index ?? 0),
+              );
+            }
+            if (settings.name == '/discover') {
+              final int? index = settings.arguments as int?;
+              return MaterialPageRoute(
+                builder: (context) => DiscoverDetailPage(initialIndex: index ?? 0),
+              );
+            }
+            return MaterialPageRoute(
+              builder: (context) => HomePage(),
+            );
+          },
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
           theme: ThemeData(
