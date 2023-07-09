@@ -14,7 +14,7 @@ class ShipmentsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ItemScrollController _scrollController = ItemScrollController();
 
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollController.scrollTo(
           index: initialIndex, duration: Duration(milliseconds: 200));
     });

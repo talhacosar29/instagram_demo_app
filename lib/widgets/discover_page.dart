@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_demo_app/constants/bottom_navigator.dart';
-import 'package:instagram_demo_app/widgets/discover_detail_page.dart';
 
 import '../constants/app_constants.dart';
 
@@ -29,18 +28,18 @@ class _DiscoverPageState extends State<DiscoverPage> {
             backgroundColor: Colors.black,
             automaticallyImplyLeading: false,
             title: Container(
-              height: 45,
-              padding: EdgeInsets.all(10),
+              height: 45.h,
+              padding: EdgeInsets.all(10.h),
               decoration: BoxDecoration(
                   color: Colors.grey.shade700,
-                  borderRadius: BorderRadius.circular(15)),
+                  borderRadius: BorderRadius.circular(15.r)),
               child: TextField(
                 cursorColor: Colors.white,
                 style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                   hoverColor: Colors.white,
                   fillColor: Colors.white,
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.search,
                     color: Colors.white,
                   ),
@@ -53,8 +52,8 @@ class _DiscoverPageState extends State<DiscoverPage> {
           SliverGrid(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
-              mainAxisSpacing: 3, // Ana eksen boyunca öğeler arası boşluk
-              crossAxisSpacing: 3, // Çapraz eksen boyunca öğeler arası boşluk
+              mainAxisSpacing: 3.h, // Ana eksen boyunca öğeler arası boşluk
+              crossAxisSpacing: 3.w, // Çapraz eksen boyunca öğeler arası boşluk
               childAspectRatio: 1.0, // Öğelerin en-boy oranı
             ),
             delegate: SliverChildBuilderDelegate(
