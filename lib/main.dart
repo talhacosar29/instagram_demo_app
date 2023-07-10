@@ -1,11 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_demo_app/widgets/discover_detail_page.dart';
 import 'package:instagram_demo_app/widgets/homePage.dart';
 import 'package:instagram_demo_app/widgets/login_page.dart';
-import 'package:instagram_demo_app/widgets/root_page.dart';
+//import 'package:instagram_demo_app/widgets/root_page.dart';
 import 'package:instagram_demo_app/widgets/shipments_page.dart';
 import 'package:instagram_demo_app/widgets/tagged_shipments_page.dart';
 
@@ -20,7 +20,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  //final FirebaseAuth _auth = FirebaseAuth.instance;
   MyApp({super.key});
   @override
   Widget build(BuildContext context) {
