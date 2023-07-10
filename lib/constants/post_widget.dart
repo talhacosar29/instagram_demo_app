@@ -27,35 +27,42 @@ class PostWidgetConstant {
             height: 50.h,
             width: double.infinity.w,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(
-                  width: 15.w,
-                ),
-                CircleAvatar(
-                  backgroundColor: Colors.white,
-                  backgroundImage: AssetImage('assets/images/vesikalik.png'),
-                ),
-                SizedBox(
-                  width: 15.w,
-                ),
-                Text(
-                  "talhacosar29",
-                  style: TextStyle(
-                      fontSize: 17.sp,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w900),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(
-                  width: 165.w,
+                Container(
+                  height: 50.h,
+                  width: 200.w,
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 15.w,
+                      ),
+                      CircleAvatar(
+                        backgroundColor: Colors.white,
+                        backgroundImage:
+                            AssetImage('assets/images/vesikalik.png'),
+                      ),
+                      SizedBox(
+                        width: 15.w,
+                      ),
+                      Text(
+                        Sabitler.FirebaseUserames[index],
+                        style: TextStyle(
+                            fontSize: 17.sp,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w900),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
                 ),
                 IconButton(
-                  onPressed: () {},
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.more_vert,
                     color: Colors.white,
                   ),
-                )
+                  onPressed: () {},
+                ),
               ],
             ),
           ),
@@ -117,7 +124,7 @@ class PostWidgetConstant {
             child: Align(
               alignment: AlignmentDirectional.centerStart,
               child: Text(
-                "5.050 beğenme",
+                "${Sabitler.FirebasePhotoLikes[index]} beğenme",
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 17.sp,
@@ -132,7 +139,7 @@ class PostWidgetConstant {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  "talhacosar29",
+                  Sabitler.FirebaseUserames[index],
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 17.sp,

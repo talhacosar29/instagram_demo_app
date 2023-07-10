@@ -35,7 +35,7 @@ class _ProfilPageState extends State<ProfilPage> {
           title: Row(
             children: [
               Text(
-                "talhacosar29",
+                Sabitler.FirebaseUserames[0],
                 style: TextStyle(
                   fontSize: 26.sp,
                   fontWeight: FontWeight.w900,

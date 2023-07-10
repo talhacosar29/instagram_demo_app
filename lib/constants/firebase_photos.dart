@@ -9,23 +9,12 @@ import 'package:image_picker/image_picker.dart';
 import '../widgets/homePage.dart';
 
 class FirebasePhoto {
-  static List<String> photoUrls = [];
-  Future<List<String>> getPhotoUrls() async {
-    final user = FirebaseAuth.instance.currentUser;
-    final firestoreRef =
-        FirebaseFirestore.instance.collection('users').doc(user?.uid);
-
-    final snapshot = await firestoreRef.get();
-    if (snapshot.exists) {
-      final data = snapshot.data();
-      final imageUrlList = data!['photoUrl'] as List<dynamic>;
-      photoUrls = imageUrlList.map((imageUrl) => imageUrl.toString()).toList();
-    }
-
-    return photoUrls;
-  }
-
   Future<void> pickAndUploadImage(BuildContext context) async {
+    var usernameData;
+    bool? userIdControl;
+    FirebaseFirestore _firestore = FirebaseFirestore.instance;
+    var userPost = await _firestore.collection("users").get();
+
     final pickedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
 
@@ -33,16 +22,31 @@ class FirebasePhoto {
       final imageFile = File(pickedFile.path);
       final storageRef = FirebaseStorage.instance
           .ref()
-          .child('images/${DateTime.now().millisecondsSinceEpoch}');
+          .child('instagram/${DateTime.now().millisecondsSinceEpoch}');
       await storageRef.putFile(imageFile);
 
       final imageUrl = await storageRef.getDownloadURL();
+      final user = FirebaseAuth.instance.currentUser;
 
-      final firestoreRef = FirebaseFirestore.instance.collection('users').doc();
-      await firestoreRef.set({
-        'photoUrl': imageUrl,
-        'uploadDate': DateTime.now().millisecondsSinceEpoch,
-      }, SetOptions(merge: true));
+      for (var post in userPost.docs) {
+        usernameData = post.data()['user_name'];
+        if (post.data()['user_id'] == user?.uid) {
+          userIdControl = true;
+          break;
+        }
+      }
+
+      final firestoreRef = _firestore.collection('posts').doc();
+      if (userIdControl == true) {
+        await firestoreRef.set({
+          'comment_count': 0,
+          'comments': [],
+          'likes': 0,
+          'photoUrl': imageUrl,
+          'uploadDate': DateTime.now(),
+          'userName': usernameData
+        }, SetOptions(merge: true));
+      }
 
       // ignore: use_build_context_synchronously
       showDialog(

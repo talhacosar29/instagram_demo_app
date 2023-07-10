@@ -25,15 +25,21 @@ class _HomePageState extends State<HomePage> {
 
   void getPhotos() async {
     var photosSnapshot = await _firestore
-        .collection("users")
+        .collection("posts")
         .orderBy('uploadDate', descending: true)
         .get();
     List<String> firebasePhotos = []; // Yeni fotoğraf listesi
+    List<int> photoLikes = []; // Fotoğrafın beğeni Sayısı
+    List<String> userNames = []; // Kullanıcı adları
     for (var photo in photosSnapshot.docs) {
       firebasePhotos.add(photo.data()['photoUrl']);
+      photoLikes.add(photo.data()['likes']);
+      userNames.add(photo.data()['userName']);
     }
     setState(() {
       Sabitler.FirebasePhotos = firebasePhotos; // Fotoğraf listesini güncelle
+      Sabitler.FirebaseUserames = userNames;
+      Sabitler.FirebasePhotoLikes = photoLikes;
     });
   }
 

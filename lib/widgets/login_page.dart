@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:instagram_demo_app/widgets/homePage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,6 +20,9 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailLoginController = TextEditingController();
   final TextEditingController _passwordLoginController =
       TextEditingController();
+
+  final TextEditingController _userNameController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> _loginUser() async {
@@ -88,6 +92,15 @@ class _LoginPageState extends State<LoginPage> {
 
       User? user = userCredential.user;
       if (user != null) {
+        final firestoreRef =
+            FirebaseFirestore.instance.collection('users').doc();
+        await firestoreRef.set({
+          'phoneNumber': _phoneNumberController.text.toString(),
+          'user_mail': _emailLoginController.text.toString(),
+          'user_name': _userNameController.text.toString(),
+          'user_id': user.uid.toString(),
+          'firestore_id': firestoreRef.id.toString(),
+        }, SetOptions(merge: true));
         Fluttertoast.showToast(
             msg: 'Kayıt başarılı. Kullanıcı ID: ${user.uid}');
         setState(() {
@@ -140,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Center(
                 child: Text(
-                  "Mobifiz Uygulamasına Hoşgeldiniz",
+                  "Instagram Clone Uygulamasına Hoşgeldiniz",
                   style: TextStyle(color: Colors.white, fontSize: 18.sp),
                 ),
               )
@@ -172,9 +185,44 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   child: TextField(
                     style: TextStyle(color: Colors.white),
+                    controller: _userNameController,
+                    decoration: InputDecoration(
+                      hintText: "Kullanıcı Adı",
+                      hintStyle: TextStyle(color: Colors.grey.shade100),
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(10.w),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: Colors.grey.shade200),
+                    ),
+                  ),
+                  child: TextField(
+                    style: TextStyle(color: Colors.white),
                     controller: _emailLoginController,
                     decoration: InputDecoration(
                       hintText: "E Posta Adresi",
+                      hintStyle: TextStyle(color: Colors.grey.shade100),
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(10.w),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: Colors.grey.shade200),
+                    ),
+                  ),
+                  child: TextField(
+                    style: TextStyle(color: Colors.white),
+                    cursorColor: Colors.white,
+                    controller: _phoneNumberController,
+                    decoration: InputDecoration(
+                      hintText: "Telefon Numarası",
                       hintStyle: TextStyle(color: Colors.grey.shade100),
                       border: InputBorder.none,
                     ),
