@@ -11,6 +11,13 @@ class ProfilPage extends StatefulWidget {
 }
 
 class _ProfilPageState extends State<ProfilPage> {
+  // FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   getPhotos();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -76,10 +83,11 @@ class _ProfilPageState extends State<ProfilPage> {
               child: TabBarView(
                 children: [
                   Container(
+                    height: 300,
                     child: GridView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: 10,
+                      itemCount: Sabitler.FirebasePhotos.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
                         mainAxisSpacing: 3.h, // Ana eksen aralığı
@@ -89,9 +97,6 @@ class _ProfilPageState extends State<ProfilPage> {
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () {
-                            setState(() {
-                              Sabitler.postIndex = index;
-                            });
                             Navigator.pushNamed(context, '/shipments',
                                 arguments: index);
                           },
@@ -99,8 +104,8 @@ class _ProfilPageState extends State<ProfilPage> {
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image: AssetImage(
-                                  Sabitler.ProfilResimler[index],
+                                image: NetworkImage(
+                                  Sabitler.FirebasePhotos[index],
                                 ),
                               ),
                             ),
@@ -110,10 +115,11 @@ class _ProfilPageState extends State<ProfilPage> {
                     ),
                   ),
                   Container(
+                    height: 300,
                     child: GridView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: 10,
+                      itemCount: Sabitler.FirebasePhotos.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
                         mainAxisSpacing: 3.h, // Ana eksen aralığı
@@ -123,9 +129,6 @@ class _ProfilPageState extends State<ProfilPage> {
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () {
-                            setState(() {
-                              Sabitler.postIndex = index;
-                            });
                             Navigator.pushNamed(context, '/taged_shipments',
                                 arguments: index);
                           },
@@ -133,8 +136,8 @@ class _ProfilPageState extends State<ProfilPage> {
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image: AssetImage(
-                                  Sabitler.ProfilResimler[index],
+                                image: NetworkImage(
+                                  Sabitler.FirebasePhotos[index],
                                 ),
                               ),
                             ),
@@ -142,7 +145,7 @@ class _ProfilPageState extends State<ProfilPage> {
                         );
                       },
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
@@ -334,4 +337,18 @@ class _ProfilPageState extends State<ProfilPage> {
       ),
     );
   }
+
+  // void getPhotos() async {
+  //   var photosSnapshot = await _firestore
+  //       .collection("users")
+  //       .orderBy('uploadDate', descending: true)
+  //       .get();
+  //   List<String> firebasePhotos = []; // Yeni fotoğraf listesi
+  //   for (var photo in photosSnapshot.docs) {
+  //     firebasePhotos.add(photo.data()['photoUrl']);
+  //   }
+  //   setState(() {
+  //     Sabitler.FirebasePhotos = firebasePhotos; // Fotoğraf listesini güncelle
+  //   });
+  // }
 }

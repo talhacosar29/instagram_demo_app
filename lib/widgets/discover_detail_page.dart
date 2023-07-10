@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:instagram_demo_app/constants/app_constants.dart';
 import 'package:instagram_demo_app/constants/bottom_navigator.dart';
 import 'package:instagram_demo_app/constants/post_widget.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -15,7 +16,7 @@ class DiscoverDetailPage extends StatelessWidget {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollController.scrollTo(
-          index: initialIndex, duration: Duration(milliseconds: 200));
+          index: initialIndex, duration: Duration(milliseconds: 500));
     });
     return Scaffold(
       bottomNavigationBar: BottomNavigator(),
@@ -42,7 +43,7 @@ class DiscoverDetailPage extends StatelessWidget {
               width: double.infinity.w,
               color: Colors.black,
               child: ScrollablePositionedList.builder(
-                itemCount: 10,
+                itemCount: Sabitler.FirebasePhotos.length,
                 itemBuilder: (context, index) {
                   return PostWidgetConstant.PostView(index);
                 },

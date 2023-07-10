@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../constants/app_constants.dart';
 import '../constants/bottom_navigator.dart';
 import '../constants/post_widget.dart';
+import 'login_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,6 +16,36 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  @override
+  void initState() {
+    super.initState();
+    getPhotos();
+  }
+
+  void getPhotos() async {
+    var photosSnapshot = await _firestore
+        .collection("users")
+        .orderBy('uploadDate', descending: true)
+        .get();
+    List<String> firebasePhotos = []; // Yeni fotoğraf listesi
+    for (var photo in photosSnapshot.docs) {
+      firebasePhotos.add(photo.data()['photoUrl']);
+    }
+    setState(() {
+      Sabitler.FirebasePhotos = firebasePhotos; // Fotoğraf listesini güncelle
+    });
+  }
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  void _logout(BuildContext context) async {
+    await _auth.signOut();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginPage()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,6 +72,30 @@ class _HomePageState extends State<HomePage> {
               IconButton(
                 onPressed: () {},
                 icon: Icon(Icons.messenger_outline),
+              ),
+              Center(
+                child: Text(
+                  "Çıkış Yap",
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              SizedBox(
+                width: 5.w,
+              ),
+              CircleAvatar(
+                backgroundColor: Colors.black,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.logout,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    _logout(context);
+                  },
+                ),
+              ),
+              SizedBox(
+                width: 5.w,
               ),
             ],
           ),
@@ -68,7 +126,7 @@ class _HomePageState extends State<HomePage> {
               (context, index) {
                 return PostWidgetConstant.PostView(index);
               },
-              childCount: 10,
+              childCount: Sabitler.FirebasePhotos.length,
             ),
           ),
         ],

@@ -3,15 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'app_constants.dart';
 
-class PostWidgetConstant
-{
+class PostWidgetConstant {
   static PostView(int index) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.black,
         boxShadow: [
           BoxShadow(
-            color: Colors.grey,
+            color: Colors.black,
             offset: Offset(0, 0), // Gölgenin konumu
             blurRadius: 5.h, // Gölge bulanıklığı
             spreadRadius: 1.w, // Gölgenin yayılma miktarı
@@ -64,10 +63,10 @@ class PostWidgetConstant
             height: 410.h,
             width: double.infinity.w,
             decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.black,
                 image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: AssetImage(Sabitler.ProfilResimler[index]))),
+                    image: NetworkImage(Sabitler.FirebasePhotos[index]))),
           ),
           Container(
             height: 50.h,

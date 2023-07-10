@@ -12,6 +12,28 @@ class DiscoverPage extends StatefulWidget {
 }
 
 class _DiscoverPageState extends State<DiscoverPage> {
+  // FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  // void getPhotos() async {
+  //   var photosSnapshot = await _firestore
+  //       .collection("users")
+  //       .orderBy('uploadDate', descending: true)
+  //       .get();
+  //   List<String> firebasePhotos = []; // Yeni fotoğraf listesi
+  //   for (var photo in photosSnapshot.docs) {
+  //     firebasePhotos.add(photo.data()['photoUrl']);
+  //   }
+  //   setState(() {
+  //     Sabitler.FirebasePhotos = firebasePhotos; // Fotoğraf listesini güncelle
+  //   });
+  // }
+
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   getPhotos();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,15 +88,16 @@ class _DiscoverPageState extends State<DiscoverPage> {
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: AssetImage(
-                          Sabitler.ProfilResimler[index],
+                        image: NetworkImage(
+                          Sabitler.FirebasePhotos[index],
                         ),
                       ),
                     ),
                   ),
                 );
               },
-              childCount: 10, // GridView'deki öğe sayısı
+              childCount:
+                  Sabitler.FirebasePhotos.length, // GridView'deki öğe sayısı
             ),
           ),
         ],
