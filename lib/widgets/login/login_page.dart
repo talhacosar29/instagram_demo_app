@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../constants/app_constants.dart';
+import '../../constants/app_constants.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

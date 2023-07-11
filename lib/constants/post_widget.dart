@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'app_constants.dart';
 
 class PostWidgetConstant {
-  static PostView(int index) {
+  static PostView(int index, String imgUrl) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.black,
@@ -46,7 +46,7 @@ class PostWidgetConstant {
                         width: 15.w,
                       ),
                       Text(
-                        Sabitler.FirebaseUserames[index],
+                        Sabitler.FirebaseUsernames[index],
                         style: TextStyle(
                             fontSize: 17.sp,
                             color: Colors.white,
@@ -73,7 +73,7 @@ class PostWidgetConstant {
                 color: Colors.black,
                 image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: NetworkImage(Sabitler.FirebasePhotos[index]))),
+                    image: NetworkImage(imgUrl))),
           ),
           Container(
             height: 50.h,
@@ -139,7 +139,7 @@ class PostWidgetConstant {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  Sabitler.FirebaseUserames[index],
+                  Sabitler.FirebaseUsernames[index],
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 17.sp,

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_demo_app/constants/app_constants.dart';
 import 'package:instagram_demo_app/constants/firebase_photos.dart';
-import 'package:instagram_demo_app/widgets/discover_page.dart';
+import 'package:instagram_demo_app/widgets/discover/discover_page.dart';
 
 import '../widgets/homePage.dart';
-import '../widgets/profil_page.dart';
+import '../widgets/profile/profil_page.dart';
 
 class BottomNavigator extends StatelessWidget {
   const BottomNavigator({

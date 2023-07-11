@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_demo_app/constants/app_constants.dart';
@@ -11,12 +13,12 @@ class ProfilPage extends StatefulWidget {
 }
 
 class _ProfilPageState extends State<ProfilPage> {
-  // FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   getPhotos();
-  // }
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  @override
+  void initState() {
+    super.initState();
+    getPhotos();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class _ProfilPageState extends State<ProfilPage> {
           title: Row(
             children: [
               Text(
-                Sabitler.FirebaseUserames[0],
+                Sabitler.FirebaseUsernames[0],
                 style: TextStyle(
                   fontSize: 26.sp,
                   fontWeight: FontWeight.w900,
@@ -87,7 +89,7 @@ class _ProfilPageState extends State<ProfilPage> {
                     child: GridView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: Sabitler.FirebasePhotos.length,
+                      itemCount: Sabitler.currentFirebasePhotos.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
                         mainAxisSpacing: 3.h, // Ana eksen aralığı
@@ -105,7 +107,7 @@ class _ProfilPageState extends State<ProfilPage> {
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
-                                  Sabitler.FirebasePhotos[index],
+                                  Sabitler.currentFirebasePhotos[index],
                                 ),
                               ),
                             ),
@@ -119,7 +121,7 @@ class _ProfilPageState extends State<ProfilPage> {
                     child: GridView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: Sabitler.FirebasePhotos.length,
+                      itemCount: Sabitler.currentFirebasePhotos.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
                         mainAxisSpacing: 3.h, // Ana eksen aralığı
@@ -137,7 +139,7 @@ class _ProfilPageState extends State<ProfilPage> {
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
-                                  Sabitler.FirebasePhotos[index],
+                                  Sabitler.currentFirebasePhotos[index],
                                 ),
                               ),
                             ),
@@ -338,17 +340,21 @@ class _ProfilPageState extends State<ProfilPage> {
     );
   }
 
-  // void getPhotos() async {
-  //   var photosSnapshot = await _firestore
-  //       .collection("users")
-  //       .orderBy('uploadDate', descending: true)
-  //       .get();
-  //   List<String> firebasePhotos = []; // Yeni fotoğraf listesi
-  //   for (var photo in photosSnapshot.docs) {
-  //     firebasePhotos.add(photo.data()['photoUrl']);
-  //   }
-  //   setState(() {
-  //     Sabitler.FirebasePhotos = firebasePhotos; // Fotoğraf listesini güncelle
-  //   });
-  // }
+  void getPhotos() async {
+    final user = FirebaseAuth.instance.currentUser;
+    var photosSnapshot = await _firestore
+        .collection("posts")
+        .orderBy('uploadDate', descending: true)
+        .get();
+    List<String> currentFirebasePhotos = []; // Yeni fotoğraf listesi
+    for (var photo in photosSnapshot.docs) {
+      if (photo.data()['user_id'] == user?.uid) {
+        currentFirebasePhotos.add(photo.data()['photoUrl']);
+      }
+    }
+    setState(() {
+      Sabitler.currentFirebasePhotos =
+          currentFirebasePhotos; // Fotoğraf listesini güncelle
+    });
+  }
 }

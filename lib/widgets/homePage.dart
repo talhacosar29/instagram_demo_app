@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../constants/app_constants.dart';
 import '../constants/bottom_navigator.dart';
 import '../constants/post_widget.dart';
-import 'login_page.dart';
+import 'login/login_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -31,15 +31,23 @@ class _HomePageState extends State<HomePage> {
     List<String> firebasePhotos = []; // Yeni fotoğraf listesi
     List<int> photoLikes = []; // Fotoğrafın beğeni Sayısı
     List<String> userNames = []; // Kullanıcı adları
+    Set<String> userNamesList = {};
+    int userLength = 0;
     for (var photo in photosSnapshot.docs) {
       firebasePhotos.add(photo.data()['photoUrl']);
       photoLikes.add(photo.data()['likes']);
       userNames.add(photo.data()['userName']);
     }
+    for (var name in userNames) {
+      userNamesList.add(name);
+    }
+    userLength = userNamesList.length;
     setState(() {
-      Sabitler.FirebasePhotos = firebasePhotos; // Fotoğraf listesini güncelle
-      Sabitler.FirebaseUserames = userNames;
+      Sabitler.FirebasePhotos = firebasePhotos;
+      Sabitler.FirebaseUsernames = userNames;
       Sabitler.FirebasePhotoLikes = photoLikes;
+      Sabitler.FirebaseUserNamesList = userNamesList;
+      Sabitler.userLength = userLength;
     });
   }
 
@@ -58,6 +66,7 @@ class _HomePageState extends State<HomePage> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            titleSpacing: 20.w,
             snap: true,
             backgroundColor: Colors.black,
             elevation: 0,
@@ -73,17 +82,7 @@ class _HomePageState extends State<HomePage> {
             actions: [
               IconButton(
                 onPressed: () {},
-                icon: Icon(Icons.favorite_border_outlined),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.messenger_outline),
-              ),
-              Center(
-                child: Text(
-                  "Çıkış Yap",
-                  textAlign: TextAlign.center,
-                ),
+                icon: const Icon(Icons.favorite_border_outlined),
               ),
               SizedBox(
                 width: 5.w,
@@ -91,7 +90,7 @@ class _HomePageState extends State<HomePage> {
               CircleAvatar(
                 backgroundColor: Colors.black,
                 child: IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.logout,
                     color: Colors.white,
                   ),
@@ -101,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(
-                width: 5.w,
+                width: 10.w,
               ),
             ],
           ),
@@ -116,12 +115,13 @@ class _HomePageState extends State<HomePage> {
                   mainStoryView(),
                   ListView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      return storyView();
+                      return storyView(index);
                     },
-                    itemCount: 30,
+                    itemCount: Sabitler
+                        .userLength, //Sabitler.FirebaseUsernames.length,
                   ),
                 ],
               ),
@@ -130,14 +130,15 @@ class _HomePageState extends State<HomePage> {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
-                return PostWidgetConstant.PostView(index);
+                return PostWidgetConstant.PostView(
+                    index, Sabitler.FirebasePhotos[index]);
               },
               childCount: Sabitler.FirebasePhotos.length,
             ),
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigator(),
+      bottomNavigationBar: const BottomNavigator(),
     );
   }
 
@@ -179,7 +180,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget storyView() {
+  Widget storyView(int index) {
     return Container(
       margin: EdgeInsets.all(8.w),
       child: Column(
@@ -194,8 +195,8 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           SizedBox(height: 5.h),
-          const Text(
-            "talhacosar29",
+          Text(
+            Sabitler.FirebaseUserNamesList.elementAt(index),
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,

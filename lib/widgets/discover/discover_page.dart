@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_demo_app/constants/bottom_navigator.dart';
 
-import '../constants/app_constants.dart';
+import '../../constants/app_constants.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({super.key});

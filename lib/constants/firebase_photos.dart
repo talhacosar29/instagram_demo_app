@@ -44,7 +44,8 @@ class FirebasePhoto {
           'likes': 0,
           'photoUrl': imageUrl,
           'uploadDate': DateTime.now(),
-          'userName': usernameData
+          'userName': usernameData,
+          'user_id': user?.uid
         }, SetOptions(merge: true));
       }
 

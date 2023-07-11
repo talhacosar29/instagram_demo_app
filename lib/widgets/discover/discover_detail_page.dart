@@ -45,7 +45,7 @@ class DiscoverDetailPage extends StatelessWidget {
               child: ScrollablePositionedList.builder(
                 itemCount: Sabitler.FirebasePhotos.length,
                 itemBuilder: (context, index) {
-                  return PostWidgetConstant.PostView(index);
+                  return PostWidgetConstant.PostView(index, Sabitler.FirebasePhotos[index]);
                 },
                 itemScrollController: _scrollController,
               ),
