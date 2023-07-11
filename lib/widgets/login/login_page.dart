@@ -1,11 +1,11 @@
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:instagram_demo_app/widgets/homePage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:instagram_demo_app/widgets/homePage.dart';
 
 import '../../constants/app_constants.dart';
 
@@ -26,21 +26,6 @@ class _LoginPageState extends State<LoginPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> _loginUser() async {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CircularProgressIndicator(),
-            ],
-          ),
-        );
-      },
-    );
-
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: _emailLoginController.text.trim(),
@@ -48,8 +33,8 @@ class _LoginPageState extends State<LoginPage> {
       );
 
       User? user = userCredential.user;
+
       if (user != null) {
-        Navigator.pop(context); // Yükleniyor animasyonunu kapat
         Fluttertoast.showToast(
             msg: 'Giriş başarılı. Kullanıcı ID: ${user.uid}');
 
@@ -59,8 +44,6 @@ class _LoginPageState extends State<LoginPage> {
         );
       }
     } catch (e) {
-      Navigator.pop(context); // Yükleniyor animasyonunu kapat
-
       showDialog(
         context: context,
         builder: (BuildContext context) {

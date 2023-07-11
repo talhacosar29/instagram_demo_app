@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'app_constants.dart';
-
 class PostWidgetConstant {
-  static PostView(int index, String imgUrl) {
+  static PostView(index, imgUrl, userName, likes) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.black,
@@ -46,7 +44,7 @@ class PostWidgetConstant {
                         width: 15.w,
                       ),
                       Text(
-                        Sabitler.FirebaseUsernames[index],
+                        userName,
                         style: TextStyle(
                             fontSize: 17.sp,
                             color: Colors.white,
@@ -72,8 +70,7 @@ class PostWidgetConstant {
             decoration: BoxDecoration(
                 color: Colors.black,
                 image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(imgUrl))),
+                    fit: BoxFit.cover, image: NetworkImage(imgUrl))),
           ),
           Container(
             height: 50.h,
@@ -124,7 +121,7 @@ class PostWidgetConstant {
             child: Align(
               alignment: AlignmentDirectional.centerStart,
               child: Text(
-                "${Sabitler.FirebasePhotoLikes[index]} beğenme",
+                "${likes} beğenme",
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 17.sp,
@@ -139,7 +136,7 @@ class PostWidgetConstant {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  Sabitler.FirebaseUsernames[index],
+                  userName,
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 17.sp,

@@ -35,7 +35,11 @@ class ShipmentsPage extends StatelessWidget {
       body: ScrollablePositionedList.builder(
         itemCount: Sabitler.currentFirebasePhotos.length,
         itemBuilder: (context, index) {
-          return PostWidgetConstant.PostView(index, Sabitler.currentFirebasePhotos[index]);
+          return PostWidgetConstant.PostView(
+              index,
+              Sabitler.currentFirebasePhotos[index],
+              Sabitler.currentFirebaseUserNames[index],
+              Sabitler.currentFirebasePhotoLikes[index]);
         },
         itemScrollController: _scrollController,
       ),

@@ -1,4 +1,4 @@
-//import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,7 +20,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  //final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   MyApp({super.key});
   @override
   Widget build(BuildContext context) {
@@ -57,29 +57,19 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: LoginPage(),
+        home: StreamBuilder<User?>(
+          stream: _auth.authStateChanges(),
+          builder: (BuildContext context, snapshot) {
+            if (snapshot.hasData) {
+              // Oturum açık ise ana sayfaya yönlendir
+              return HomePage();
+            } else {
+              // Oturum kapalı ise giriş sayfasını göster
+              return LoginPage();
+            }
+          },
+        ),
       ),
     );
   }
 }
-
-// StreamBuilder<User?>(
-//           stream: _auth.authStateChanges(),
-//           builder: (BuildContext context, snapshot) {
-//             if (snapshot.connectionState == ConnectionState.waiting) {
-//               return Scaffold(
-//                 body: Center(
-//                   child: CircularProgressIndicator(),
-//                 ),
-//               );
-//             } else {
-//               if (snapshot.hasData) {
-//                 // Oturum açık ise ana sayfaya yönlendir
-//                 return HomePage();
-//               } else {
-//                 // Oturum kapalı ise giriş sayfasını göster
-//                 return LoginPage();
-//               }
-//             }
-//           },
-//         ),

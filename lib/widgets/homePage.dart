@@ -25,6 +25,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   void getPhotos() async {
+    var currentUser = "";
+    List<String> firestorUserNames = []; // Kullanıcı adları
+    var usersSnapshot = await _firestore.collection("users").get();
+    for (var userFirestore in usersSnapshot.docs) {
+      firestorUserNames.add(userFirestore.data()['user_name']);
+      if (user?.uid == userFirestore.data()['user_id']) {
+        currentUser = userFirestore.data()['user_name'];
+      }
+    }
     var photosSnapshot = await _firestore
         .collection("posts")
         .orderBy('uploadDate', descending: true)
@@ -32,28 +41,22 @@ class _HomePageState extends State<HomePage> {
     List<String> firebasePhotos = []; // Yeni fotoğraf listesi
     List<int> photoLikes = []; // Fotoğrafın beğeni Sayısı
     List<String> userNames = []; // Kullanıcı adları
-    Set<String> userNamesList = {};
     int userLength = 0;
-    var current_user = "";
     for (var photo in photosSnapshot.docs) {
       firebasePhotos.add(photo.data()['photoUrl']);
       photoLikes.add(photo.data()['likes']);
       userNames.add(photo.data()['userName']);
-      if (photo.data()['user_id'] == user?.uid) {
-        current_user = photo.data()['userName'];
-      }
     }
-    for (var name in userNames) {
-      userNamesList.add(name);
-    }
-    userNamesList.remove(current_user);
-    userLength = userNamesList.length;
+
+    firestorUserNames.remove(currentUser);
+    userLength = firestorUserNames.length;
     setState(() {
       Sabitler.FirebasePhotos = firebasePhotos;
       Sabitler.FirebaseUsernames = userNames;
       Sabitler.FirebasePhotoLikes = photoLikes;
-      Sabitler.FirebaseUserNamesList = userNamesList;
+      Sabitler.FirebaseUserNamesList = firestorUserNames;
       Sabitler.userLength = userLength;
+      Sabitler.currentUser = currentUser;
     });
   }
 
@@ -118,6 +121,7 @@ class _HomePageState extends State<HomePage> {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
+                  SizedBox(width: 5.w),
                   mainStoryView(),
                   ListView.builder(
                     shrinkWrap: true,
@@ -137,7 +141,10 @@ class _HomePageState extends State<HomePage> {
             delegate: SliverChildBuilderDelegate(
               (context, index) {
                 return PostWidgetConstant.PostView(
-                    index, Sabitler.FirebasePhotos[index]);
+                    index,
+                    Sabitler.FirebasePhotos[index],
+                    Sabitler.FirebaseUsernames[index],
+                    Sabitler.FirebasePhotoLikes[index]);
               },
               childCount: Sabitler.FirebasePhotos.length,
             ),
@@ -175,7 +182,7 @@ class _HomePageState extends State<HomePage> {
           ),
           SizedBox(height: 5.h),
           Text(
-            "talhacosar29",
+            Sabitler.currentUser,
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -202,7 +209,7 @@ class _HomePageState extends State<HomePage> {
           ),
           SizedBox(height: 5.h),
           Text(
-            Sabitler.FirebaseUserNamesList.elementAt(index),
+            Sabitler.FirebaseUserNamesList[index],
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,

@@ -47,7 +47,7 @@ class TagedShipmentsPage extends StatelessWidget {
         itemCount: Sabitler.currentFirebasePhotos.length,
         itemBuilder: (context, index) {
           return PostWidgetConstant.PostView(
-              index, Sabitler.currentFirebasePhotos[index]);
+              index, Sabitler.currentFirebasePhotos[index], Sabitler.currentFirebaseUserNames[index], Sabitler.FirebasePhotoLikes[index]);
         },
         itemScrollController: _scrollController,
       ),

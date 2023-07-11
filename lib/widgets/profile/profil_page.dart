@@ -14,7 +14,6 @@ class ProfilPage extends StatefulWidget {
 
 class _ProfilPageState extends State<ProfilPage> {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  var current_user = "";
   @override
   void initState() {
     super.initState();
@@ -38,7 +37,7 @@ class _ProfilPageState extends State<ProfilPage> {
           title: Row(
             children: [
               Text(
-                current_user,
+                Sabitler.currentUser,
                 style: TextStyle(
                   fontSize: 26.sp,
                   fontWeight: FontWeight.w900,
@@ -348,17 +347,21 @@ class _ProfilPageState extends State<ProfilPage> {
         .orderBy('uploadDate', descending: true)
         .get();
     List<String> currentFirebasePhotos = []; // Yeni fotoğraf listesi
+    List<int> currentFirebasePhotoLikes = []; // Fotoğrafın beğeni Sayısı
+    List<String> currentFirebaseUserNames = []; // Kullanıcı adları
     for (var photo in photosSnapshot.docs) {
       if (photo.data()['user_id'] == user?.uid) {
         currentFirebasePhotos.add(photo.data()['photoUrl']);
-        current_user = photo.data()['userName'];
+        currentFirebasePhotoLikes.add(photo.data()['likes']);
+        currentFirebaseUserNames.add(photo.data()['userName']);
       }
     }
 
     setState(() {
       Sabitler.currentFirebasePhotos =
           currentFirebasePhotos; // Fotoğraf listesini güncelle
-      current_user = current_user;
+      Sabitler.currentFirebasePhotoLikes = currentFirebasePhotoLikes;
+      Sabitler.currentFirebaseUserNames = currentFirebaseUserNames;
     });
   }
 }
