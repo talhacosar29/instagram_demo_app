@@ -14,6 +14,7 @@ class ProfilPage extends StatefulWidget {
 
 class _ProfilPageState extends State<ProfilPage> {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  var current_user = "";
   @override
   void initState() {
     super.initState();
@@ -37,7 +38,7 @@ class _ProfilPageState extends State<ProfilPage> {
           title: Row(
             children: [
               Text(
-                Sabitler.FirebaseUsernames[0],
+                current_user,
                 style: TextStyle(
                   fontSize: 26.sp,
                   fontWeight: FontWeight.w900,
@@ -350,11 +351,14 @@ class _ProfilPageState extends State<ProfilPage> {
     for (var photo in photosSnapshot.docs) {
       if (photo.data()['user_id'] == user?.uid) {
         currentFirebasePhotos.add(photo.data()['photoUrl']);
+        current_user = photo.data()['userName'];
       }
     }
+
     setState(() {
       Sabitler.currentFirebasePhotos =
           currentFirebasePhotos; // Fotoğraf listesini güncelle
+      current_user = current_user;
     });
   }
 }

@@ -17,6 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final user = FirebaseAuth.instance.currentUser;
   @override
   void initState() {
     super.initState();
@@ -33,14 +34,19 @@ class _HomePageState extends State<HomePage> {
     List<String> userNames = []; // Kullanıcı adları
     Set<String> userNamesList = {};
     int userLength = 0;
+    var current_user = "";
     for (var photo in photosSnapshot.docs) {
       firebasePhotos.add(photo.data()['photoUrl']);
       photoLikes.add(photo.data()['likes']);
       userNames.add(photo.data()['userName']);
+      if (photo.data()['user_id'] == user?.uid) {
+        current_user = photo.data()['userName'];
+      }
     }
     for (var name in userNames) {
       userNamesList.add(name);
     }
+    userNamesList.remove(current_user);
     userLength = userNamesList.length;
     setState(() {
       Sabitler.FirebasePhotos = firebasePhotos;
