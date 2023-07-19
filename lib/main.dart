@@ -56,6 +56,8 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
+          //useMaterial3: true,
+          //fontFamily: 'Instagram Sans',
         ),
         home: StreamBuilder<User?>(
           stream: _auth.authStateChanges(),

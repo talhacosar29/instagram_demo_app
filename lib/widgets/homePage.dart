@@ -115,7 +115,7 @@ class _HomePageState extends State<HomePage> {
           ),
           SliverToBoxAdapter(
             child: Container(
-              height: 120.h,
+              height: 128.h,
               width: 750.w,
               color: Colors.black,
               child: ListView(

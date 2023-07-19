@@ -4,9 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:instagram_demo_app/widgets/homePage.dart';
 
+import '../../constants/app_colors.dart';
 import '../../constants/app_constants.dart';
 
 class LoginPage extends StatefulWidget {
@@ -17,6 +19,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final String instaLogo = 'assets/images/Instagram-Logo.svg';
+  final String instaBlackLogo = 'assets/images/Instagram-Black-Logo.svg';
+  final String instaWhiteLogo = 'assets/images/Instagram-White-Logo.svg';
+
   final TextEditingController _emailLoginController = TextEditingController();
   final TextEditingController _passwordLoginController =
       TextEditingController();
@@ -98,11 +104,13 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar:
+          Sabitler.login == 1 ? login_bottom_appbar() : signin_bottom_appbar(),
       //appBar: AppBar(title: Text("LoginPage")),
       body: SingleChildScrollView(
         child: Center(
           child: Container(
-            height: 786.h,
+            height: 712.h,
             decoration: BoxDecoration(
               color: Colors.black,
             ),
@@ -114,318 +122,326 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  signinMethod() {
-    return Column(
-      children: [
-        SizedBox(
-          height: 120.h,
-        ),
-        Padding(
-          padding: EdgeInsets.all(20.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+  BottomAppBar login_bottom_appbar() {
+    return BottomAppBar(
+      height: 75,
+      color: Colors.black,
+      child: Column(
+        //mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Center(
-                child: Text(
-                  "Kayıt Ol",
-                  style: TextStyle(color: Colors.white, fontSize: 40.sp),
-                ),
+              const Text(
+                'Hesabınız Yok mu?',
+                style: TextStyle(color: AppColors.greyShadeColor),
               ),
-              SizedBox(
-                height: 10.h,
-              ),
-              Center(
-                child: Text(
-                  "Instagram Clone Uygulamasına Hoşgeldiniz",
-                  style: TextStyle(color: Colors.white, fontSize: 18.sp),
-                ),
-              )
-            ],
-          ),
-        ),
-        Expanded(
-          child: Container(
-            height: 600.h,
-            decoration: BoxDecoration(
-              color: Colors.grey.shade800,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(60.w),
-                topRight: Radius.circular(60.w),
-              ),
-            ),
-            child: ListView(
-              padding: EdgeInsets.only(left: 30, right: 30),
-              children: [
-                SizedBox(
-                  height: 40.h,
-                ),
-                Container(
-                  padding: EdgeInsets.all(10.w),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(color: Colors.grey.shade200),
-                    ),
-                  ),
-                  child: TextField(
-                    style: TextStyle(color: Colors.white),
-                    controller: _userNameController,
-                    decoration: InputDecoration(
-                      hintText: "Kullanıcı Adı",
-                      hintStyle: TextStyle(color: Colors.grey.shade100),
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(10.w),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(color: Colors.grey.shade200),
-                    ),
-                  ),
-                  child: TextField(
-                    style: TextStyle(color: Colors.white),
-                    controller: _emailLoginController,
-                    decoration: InputDecoration(
-                      hintText: "E Posta Adresi",
-                      hintStyle: TextStyle(color: Colors.grey.shade100),
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(10.w),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(color: Colors.grey.shade200),
-                    ),
-                  ),
-                  child: TextField(
-                    style: TextStyle(color: Colors.white),
-                    cursorColor: Colors.white,
-                    controller: _phoneNumberController,
-                    decoration: InputDecoration(
-                      hintText: "Telefon Numarası",
-                      hintStyle: TextStyle(color: Colors.grey.shade100),
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(10.w),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(color: Colors.grey.shade200),
-                    ),
-                  ),
-                  child: TextField(
-                    style: TextStyle(color: Colors.white),
-                    cursorColor: Colors.white,
-                    obscureText: true,
-                    controller: _passwordLoginController,
-                    decoration: InputDecoration(
-                      hintText: "Şifre",
-                      hintStyle: TextStyle(color: Colors.grey.shade100),
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    _registerUser();
-                  },
-                  // Kayıt Ol Butonu
-                  child: Container(
-                    height: 50.h,
-                    margin: EdgeInsets.only(
-                        left: 50.w, right: 50, top: 30.h, bottom: 20),
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black
-                              .withOpacity(0.8), // Gölgelendirme rengi
-                          spreadRadius: 5.w, // Gölgelendirme genişliği
-                          blurRadius: 7.w, // Gölgelendirme bulanıklığı
-                          offset: Offset(0, 3), // Gölgelendirme ofseti (x, y)
-                        ),
-                      ],
-                      color: Colors.grey.shade400,
-                      borderRadius: BorderRadius.circular(10.w),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Kayıt Ol",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  // Giriş Sayfasona Yönlendir
-                  onTap: () {
-                    setState(() {
-                      Sabitler.login = 1;
-                    });
-                  },
-                  child: Text(
-                    "Giriş Yapmak İçin Tıklayınız",
-                    style: TextStyle(
-                      color: Colors.grey.shade300,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  loginMethod() {
-    return Column(
-      children: [
-        SizedBox(
-          height: 120.h,
-        ),
-        Padding(
-          padding: EdgeInsets.all(20.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Text(
-                  "Giriş Yap",
-                  style: TextStyle(color: Colors.white, fontSize: 40.sp),
-                ),
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
-              Center(
-                child: Text(
-                  "Istagram Clone Uygulamasına Hoşgeldiniz",
-                  style: TextStyle(color: Colors.white, fontSize: 18.sp),
-                ),
-              )
-            ],
-          ),
-        ),
-        Expanded(
-          child: Container(
-            height: 600.h,
-            decoration: BoxDecoration(
-              color: Colors.grey.shade800,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(60.w),
-                topRight: Radius.circular(60.w),
-              ),
-            ),
-            child: ListView(
-              padding: EdgeInsets.only(left: 30, right: 30),
-              children: [
-                SizedBox(
-                  height: 40.h,
-                ),
-                Container(
-                  padding: EdgeInsets.all(10.w),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(color: Colors.grey.shade200),
-                    ),
-                  ),
-                  child: TextField(
-                    style: TextStyle(color: Colors.white),
-                    controller: _emailLoginController,
-                    decoration: InputDecoration(
-                      hintText: "E Posta Adresi",
-                      hintStyle: TextStyle(color: Colors.grey.shade100),
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(10.w),
-                  margin: EdgeInsets.only(bottom: 20.h),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(color: Colors.grey.shade200),
-                    ),
-                  ),
-                  child: TextField(
-                    style: TextStyle(color: Colors.white),
-                    obscureText: true,
-                    controller: _passwordLoginController,
-                    decoration: InputDecoration(
-                      hintText: "Şifre",
-                      hintStyle: TextStyle(color: Colors.grey.shade100),
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-                Text(
-                  "Şifreni mi Unuttun?",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.grey.shade300),
-                ),
-
-                // Giriş Yap Butonu
-                GestureDetector(
-                  onTap: () {
-                    _loginUser();
-                  },
-                  child: Container(
-                    height: 50.h,
-                    margin:
-                        EdgeInsets.symmetric(horizontal: 50.w, vertical: 20.h),
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black
-                              .withOpacity(0.8), // Gölgelendirme rengi
-                          spreadRadius: 5.w, // Gölgelendirme genişliği
-                          blurRadius: 7.w, // Gölgelendirme bulanıklığı
-                          offset: Offset(0, 3), // Gölgelendirme ofseti (x, y)
-                        ),
-                      ],
-                      color: Colors.grey.shade400,
-                      borderRadius: BorderRadius.circular(10.w),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Giriş Yap",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
-                GestureDetector(
-                  onTap: () {
+              TextButton(
+                  onPressed: () {
                     setState(() {
                       Sabitler.login = 0;
                     });
                   },
-                  child: Text(
-                    "Kayıt Olmak İçin Tıklayınız",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.grey.shade300),
+                  child: const Text(
+                    'Kayıt Ol',
+                    style:
+                        TextStyle(fontSize: 14.5, color: AppColors.blueColor),
+                  ))
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  BottomAppBar signin_bottom_appbar() {
+    return BottomAppBar(
+      height: 75,
+      color: Colors.black,
+      child: Column(
+        //mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Hesabınız Var mı?',
+                style: TextStyle(color: AppColors.greyShadeColor),
+              ),
+              TextButton(
+                  onPressed: () {
+                    setState(() {
+                      Sabitler.login = 1;
+                    });
+                  },
+                  child: const Text(
+                    'Giriş Yap',
+                    style:
+                        TextStyle(fontSize: 14.5, color: AppColors.blueColor),
+                  ))
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  loginMethod() {
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(instaWhiteLogo),
+            const SizedBox(height: 20),
+            TextFormField(
+              style: TextStyle(color: Colors.white),
+              controller: _emailLoginController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                contentPadding: const EdgeInsets.all(10),
+                hintText: 'E Posta Adresi',
+                hintStyle: const TextStyle(color: AppColors.greyShadeColor),
+                fillColor: AppColors.greyColor,
+                filled: true,
+              ),
+            ),
+            const SizedBox(height: 10),
+            TextFormField(
+              style: TextStyle(color: Colors.white),
+              obscureText: true,
+              controller: _passwordLoginController,
+              decoration: InputDecoration(
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
+                suffixIcon: const Icon(
+                  Icons.visibility_off,
+                  color: Colors.white,
+                ),
+                contentPadding: const EdgeInsets.all(10),
+                hintText: 'Şifre',
+                hintStyle: const TextStyle(color: AppColors.greyShadeColor),
+                fillColor: AppColors.greyColor,
+                filled: true,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'Şifreni mi Unuttun?',
+                    style: TextStyle(color: AppColors.blueColor),
                   ),
                 ),
               ],
             ),
-          ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                _loginUser();
+              },
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                backgroundColor: AppColors.blueColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                minimumSize: const Size(double.infinity, 40),
+              ),
+              child: const Text(
+                'Giriş Yap',
+                style: TextStyle(color: AppColors.whiteColor),
+              ),
+            ),
+            const Row(
+              children: [
+                Expanded(
+                  child: Divider(
+                    color: AppColors.greyShadeColor,
+                    thickness: 1,
+                    height: 50,
+                    endIndent: 20,
+                  ),
+                ),
+                Text(
+                  'Veya',
+                  style: TextStyle(
+                    color: AppColors.whiteColor,
+                    fontSize: 16,
+                  ),
+                ),
+                Expanded(
+                  child: Divider(
+                    color: AppColors.greyShadeColor,
+                    thickness: 1,
+                    height: 50,
+                    indent: 20,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton.icon(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                backgroundColor: AppColors.backgroundColor,
+              ),
+              icon: const Icon(
+                color: Colors.blue,
+                Icons.facebook,
+              ),
+              label: const Text('Facebook ile Giriş Yap'),
+            )
+          ],
         ),
-      ],
+      ),
+    );
+  }
+
+  signinMethod() {
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(height: 50),
+            SvgPicture.asset(instaWhiteLogo),
+            const SizedBox(height: 20),
+            TextFormField(
+              style: TextStyle(color: Colors.white),
+              controller: _userNameController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                contentPadding: const EdgeInsets.all(10),
+                hintText: 'Kullanıcı Adı',
+                hintStyle: const TextStyle(color: AppColors.greyShadeColor),
+                fillColor: AppColors.greyColor,
+                filled: true,
+              ),
+            ),
+            const SizedBox(height: 10),
+            TextFormField(
+              style: TextStyle(color: Colors.white),
+              controller: _emailLoginController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                contentPadding: const EdgeInsets.all(10),
+                hintText: 'E Posta Adresi',
+                hintStyle: const TextStyle(color: AppColors.greyShadeColor),
+                fillColor: AppColors.greyColor,
+                filled: true,
+              ),
+            ),
+            const SizedBox(height: 10),
+            TextFormField(
+              style: TextStyle(color: Colors.white),
+              controller: _phoneNumberController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                contentPadding: const EdgeInsets.all(10),
+                hintText: 'Telefon Numarası',
+                hintStyle: const TextStyle(color: AppColors.greyShadeColor),
+                fillColor: AppColors.greyColor,
+                filled: true,
+              ),
+            ),
+            const SizedBox(height: 10),
+            TextFormField(
+              style: TextStyle(color: Colors.white),
+              obscureText: true,
+              controller: _passwordLoginController,
+              decoration: InputDecoration(
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
+                suffixIcon: const Icon(
+                  Icons.visibility_off,
+                  color: Colors.white,
+                ),
+                contentPadding: const EdgeInsets.all(10),
+                hintText: 'Şifre',
+                hintStyle: const TextStyle(color: AppColors.greyShadeColor),
+                fillColor: AppColors.greyColor,
+                filled: true,
+              ),
+            ),
+            SizedBox(height: 5),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'Şifreni mi Unuttun?',
+                    style: TextStyle(color: AppColors.blueColor),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                _registerUser();
+              },
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                backgroundColor: AppColors.blueColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                minimumSize: const Size(double.infinity, 40),
+              ),
+              child: const Text(
+                'Kayıt Ol',
+                style: TextStyle(color: AppColors.whiteColor),
+              ),
+            ),
+            const Row(
+              children: [
+                // Expanded(
+                //   child: Divider(
+                //     color: AppColors.greyShadeColor,
+                //     thickness: 1,
+                //     height: 50,
+                //     endIndent: 20,
+                //   ),
+                // ),
+                // Text(
+                //   'Veya',
+                //   style: TextStyle(
+                //     color: AppColors.whiteColor,
+                //     fontSize: 16,
+                //   ),
+                // ),
+              ],
+            ),
+            // const SizedBox(height: 20),
+            // ElevatedButton.icon(
+            //   onPressed: () {},
+            //   style: ElevatedButton.styleFrom(
+            //     elevation: 0,
+            //     backgroundColor: AppColors.backgroundColor,
+            //   ),
+            //   icon: const Icon(
+            //     Icons.facebook,
+            //   ),
+            //   label: const Text('Facebook ile Giriş Yap'),
+            // )
+          ],
+        ),
+      ),
     );
   }
 }
